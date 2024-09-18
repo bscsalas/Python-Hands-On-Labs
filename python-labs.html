@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Code Playground By Tutorials Dojo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Python Code Playground</h1>
+    <textarea id="codeInput" placeholder="Enter your Python code here..."></textarea><br>
+    <button onclick="runCode()">Run Code</button>
+    <h2>Output:</h2>
+    <pre id="output"></pre>
+
+    <script>
+        async function runCode() {
+            const code = document.getElementById('codeInput').value;
+            const outputElement = document.getElementById('output');
+            outputElement.innerText = 'Executing...';
+
+            try {
+                  //Add your Lambda function URL here//
+                const response = await fetch('https://*************.lambda-url.us-east-1.on.aws', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ code })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Tutorials Dojo HTTP error! Status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                outputElement.innerText = result.output;
+            } catch (error) {
+                outputElement.innerText = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
